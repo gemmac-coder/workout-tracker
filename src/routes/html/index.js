@@ -7,6 +7,6 @@ const {
 const router = Router();
 
 router.get("/stats", renderStats);
-router.get("/exercises", renderExercises);
+router.get("/exercise", renderExercises);
 
 module.exports = router;

@@ -1,12 +1,12 @@
-const Workout = require("../../models");
+const { Workout } = require("../../models");
 
 const getWorkouts = async (req, res) => {
   try {
     const allWorkouts = await Workout.aggregate([
       {
         $addFields: {
-          duration: {
-            $sum: "$exercise.duration",
+          totalDuration: {
+            $sum: "$exercises.duration",
           },
         },
       },
@@ -22,11 +22,11 @@ const addExercise = async (req, res) => {
   const { body } = req;
 
   try {
-    const newExercise = await Workout.findByIdAndUpdate(id, {
-      $push: {
-        exercises: body,
-      },
-    });
+    const newExercise = await Workout.findByIdAndUpdate(
+      id,
+      { $push: { exercises: body } },
+      { new: true, runValidators: true }
+    );
     res.status(200).json(newExercise);
   } catch (error) {
     res.status(500).json({ message: "Could not add exercise" });
@@ -34,12 +34,8 @@ const addExercise = async (req, res) => {
 };
 
 const createWorkout = async (req, res) => {
-  const { body } = req;
-
   try {
-    const newWorkout = await Workout.create({
-      body,
-    });
+    const newWorkout = await Workout.create({});
     res.status(200).json(newWorkout);
   } catch (error) {
     res.status(500).json({ message: "Could not add workout" });
@@ -52,8 +48,8 @@ const getWorkoutsInRange = async (req, res) => {
     const allWorkoutsByRange = await Workout.aggregate([
       {
         $addFields: {
-          duration: {
-            $sum: "$exercise.duration",
+          totalDuration: {
+            $sum: "$exercises.duration",
           },
         },
       },
