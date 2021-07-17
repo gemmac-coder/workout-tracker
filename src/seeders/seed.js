@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const db = require("../models");
+const { DB_URL, MONGOOSE_OPTIONS } = require("../config");
 
 mongoose.connect(DB_URL, MONGOOSE_OPTIONS);
 
