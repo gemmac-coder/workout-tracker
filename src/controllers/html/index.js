@@ -1,8 +1,16 @@
-const renderStats = () => {};
+const path = require("path");
 
-const renderExercises = () => {};
+const renderStats = (req, res) => {
+  res.sendFile(path.join(__dirname, "../../public/stats.html"));
+};
 
-const renderHome = () => {};
+const renderExercises = (req, res) => {
+  res.sendFile(path.join(__dirname, "../../public/exercise.html"));
+};
+
+const renderHome = (req, res) => {
+  res.sendFile(path.join(__dirname, "../../public/index.html"));
+};
 
 module.exports = {
   renderStats,
